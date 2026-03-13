@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Mục Bài Đạo Lý</title>
+    <style>
+        /* Thiết kế mộc mạc, tĩnh tại */
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F9F6F0; /* Nền kem nhạt, thanh tịnh */
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #8B5A2B; /* Màu nâu đất mộc mạc */
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            color: #666666;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Thanh tìm kiếm */
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border: 1px solid #D4AF37; /* Viền vàng kim nhẹ */
+            border-radius: 25px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #333333;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 4px 10px rgba(139, 90, 43, 0.1);
+            border-color: #8B5A2B;
+        }
+
+        /* Danh sách bài đạo lý dạng list đơn giản */
+        .article-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .article-item {
+            border-bottom: 1px dashed #cccccc;
+            transition: background-color 0.2s ease;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-link {
+            display: block;
+            padding: 18px 10px;
+            text-decoration: none;
+            color: #444444;
+            font-size: 1.25rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .article-link:hover {
+            color: #8B5A2B; /* Đổi sang màu nâu khi rà chuột vào */
+            background-color: rgba(212, 175, 55, 0.05); /* Nền vàng nhạt khi hover */
+        }
+
+        /* Thông báo khi không tìm thấy kết quả */
+        #noResultMessage {
+            display: none;
+            text-align: center;
+            color: #888888;
+            font-style: italic;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Kho Tàng Đạo Lý</h1>
+            <p>Tuyển tập những tựa bài mang giá trị thức tỉnh và an vui</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" onkeyup="filterArticles()" placeholder="Nhập tên bài đạo lý để tìm...">
+            </div>
+        </header>
+
+        <main>
+            <ul class="article-list" id="articleList">
+                <li class="article-item">
+                    <a href="https://lelevietnam99.github.io/A0_THIEN_LA_UY_DUC_VO_HINH/" class="article-link">1. Thiền Là Uy Đức Vô Hình</a>
+                </li>
+                <li class="article-item">
+                    <a href="https://lelevietnam99.github.io/A0_SAU_NEO_HANH_PHUC/" class="article-link">2. Sáu Nẻo Hạnh Phúc</a>
+                </li>
+            </ul>
+
+            <div id="noResultMessage">Không tìm thấy bài đạo lý nào phù hợp.</div>
+        </main>
+    </div>
+
+    <script>
+        function filterArticles() {
+            // Lấy giá trị từ ô tìm kiếm và chuyển thành chữ thường
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            let ul = document.getElementById('articleList');
+            let li = ul.getElementsByTagName('li');
+            let hasResult = false;
+
+            // Lặp qua từng thẻ <li> để kiểm tra xem có khớp với từ khóa không
+            for (let i = 0; i < li.length; i++) {
+                let a = li[i].getElementsByTagName('a')[0];
+                let textValue = a.textContent || a.innerText;
+                
+                // Bỏ dấu tiếng Việt để tìm kiếm dễ dàng hơn (tùy chọn nâng cao)
+                let textValueNormalized = textValue.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                let filterNormalized = filter.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+                if (textValueNormalized.indexOf(filterNormalized) > -1) {
+                    li[i].style.display = "";
+                    hasResult = true;
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+
+            // Hiển thị thông báo nếu không có kết quả
+            let noResultMessage = document.getElementById('noResultMessage');
+            if (!hasResult && filter !== "") {
+                noResultMessage.style.display = "block";
+            } else {
+                noResultMessage.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
